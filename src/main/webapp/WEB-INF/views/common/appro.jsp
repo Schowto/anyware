@@ -27,7 +27,7 @@
 	.page{ 
 		float:right;
 	}
-
+	
 </style>
 
 </head>
@@ -42,11 +42,11 @@
             
             <ul>
                 <span style="font-weight: 600;">진행중인 문서</span><br><br>
-                <li><a>&nbsp;&nbsp;전체</a></li>
-                <li><a>&nbsp;&nbsp;진행</a></li>
-                <li><a>&nbsp;&nbsp;대기</a></li>
-                <li><a>&nbsp;&nbsp;예정</a></li>
-                <li><a>&nbsp;&nbsp;확인</a></li>
+                <li id="c1"><a>&nbsp;&nbsp;전체</a></li>
+                <li id="c2"><a>&nbsp;&nbsp;진행</a></li>
+                <li id="c3"><a>&nbsp;&nbsp;대기</a></li>
+                <li id="c4"><a>&nbsp;&nbsp;예정</a></li>
+                <li id="c5"><a>&nbsp;&nbsp;확인</a></li>
                 <li>
             </ul>
 
@@ -54,10 +54,10 @@
 
             <ul>
                 <span style="font-weight: 600;">문서함</span><br><br>
-                <li><a>&nbsp;&nbsp;전체</a></li>
-                <li><a>&nbsp;&nbsp;기안</a></li>
-                <li><a>&nbsp;&nbsp;결재</a></li>
-                <li><a>&nbsp;&nbsp;열람</a></li>
+                <li id="c5"><a>&nbsp;&nbsp;전체</a></li>
+                <li id="c6"><a>&nbsp;&nbsp;기안</a></li>
+                <li id="c7"><a>&nbsp;&nbsp;결재</a></li>
+                <li id="c8"><a>&nbsp;&nbsp;열람</a></li>
                 <li>
             </ul>
 

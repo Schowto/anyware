@@ -2,45 +2,119 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="approvalMapper">
   
-  <resultMap id="approvalResult" type="Approval">
-  	<id column="appro_no" property=""/>
-  	<result column="member_no" property=""/>
-  	<result column="tlp_no" property=""/>
-  	<result column="appro_title" property=""/>
-  	<result column="appro_content" property=""/>
-  	<result column="inter_no" property=""/>
-  	<result column="inter_appro" property=""/>
-  	<result column="final_no" property=""/>
-  	<result column="final_appro" property=""/>
-  	<result column="create_date" property=""/>
-  	
-	<collection property="refNo" ofType="Integer">
-	    <result column=""/>
-	</collection>
+	<resultMap id="approvalResult" type="Approval">
+		<id column="appro_no" property="approNo"/>
+			<result column="writer_name" property="writerName"/>
+			<result column="writer_job" property="writerJob"/>
+			<result column="tpl_title" property="tplTitle"/>
+			<result column="appro_title" property="approTitle"/>
+			<result column="appro_content" property="approContent"/>
+			<result column="inter_no" property="interNo"/>
+			<result column="inter_name" property="interName"/>
+			<result column="inter_job" property="interJob"/>
+			<result column="inter_appro" property="interAppro"/>
+			<result column="final_no" property="finalNo"/>
+			<result column="final_name" property="finalName"/>
+			<result column="final_job" property="finalJob"/>
+			<result column="final_appro" property="finalAppro"/>
+			<result column="create_date" property="createDate"/>
+		 <!-- 	
+		<collection property="refNo" ofType="Integer">
+			<result column="refMem_No"/>
+		</collection>
+		
+		<collection property="openNo" ofType="Integer">
+			<result column="openMem_no"/>
+		</collection>
+		 -->
+	</resultMap>
 	
-	<collection property="openNo" ofType="Integer">
-	    <result column=""/>
-	</collection>
-  	
-  </resultMap>
+	<sql id="selectListCount">
+		select count(*)
+		  from tb_approval
+		 where status = 'Y' 
+		   and member_no = #{userNo}
+	</sql>
+	
+	<select id="selectListCountCon" resultType="_int">
+		<include refid="selectListCount"/>
+		and final_appro = '대기'
+	</select>
+	
+	<!-- ========================================================================== -->
+	
+	<sql id="selectList">
+		select appro_no
+			     , m.name as writer_name
+	             , m.job_name as writer_job
+	             , a.inter_appro
+	             , a.final_appro
+	             , t.tpl_title 
+	             , appro_title
+	             , create_date
+	     from tb_approval a
+	     inner join tb_member m on ( a.member_no = m.member_no)
+	     inner join tb_app_tpl t on ( a.tpl_no = t.tpl_no)
+	    where a.status = 'Y' 
+	</sql>
+	
+	<select id="selectListCon" resultMap="approvalResult">
+		<include refid="selectList"/>
+	    and a.member_no = #{userNo}
+		and final_appro = '대기'
+	</select>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	<select id="selectAppro1" resultMap="approvalResult">
+				select appro_no
+			     , m.name as writer_name
+	             , m.job_name as writer_job
+                 , i.name as inter_name
+                 , i.job_name as inter_job
+                 , f.name as final_name
+                 , f.job_name as final_job
+	             , t.tpl_title 
+	             , appro_title
+	             , create_date
+	     from tb_approval a
+	     inner join tb_member m on ( a.member_no = m.member_no)
+         inner join tb_member i on ( a.inter_no = i.member_no)
+         inner join tb_member f on ( a.final_no = f.member_no)
+	     inner join tb_app_tpl t on ( a.tpl_no = t.tpl_no)
+	    where a.status = 'Y' 
+	      and a.member_no = #{userNo}
+	</select>	
+ 	
+ 
+ 	<select id="selectAppro2" resultMap="approvalResult">
+		select appro_no
+	    	 , a.member_no 
+             , appro_title
+             , appro_content
+             , inter_no
+             , i.name "중간결재자"
+             , inter_appro
+             , final_no
+             , final_appro
+             , create_date
+	      from tb_approval a
+	     inner join tb_member m on ( a.member_no = m.member_no)
+	     inner join tb_member i on (a.inter_no = i.member_no)
+	     where a.status = 'Y' 
+ 	</select>
   
-  <insert id="insertTpl">
- 	insert 
-	  into tb_app_tpl
-	        (
-	            tpl_no
-	          , tpl_title
-	          , tpl_content
-	          , status
-	        )       
-	values   
-	        (
-	            10
-	          , 'test'
-	          , 'testContent'
-	          , 'Y'
-	        )
-  </insert>
    
    
 </mapper>

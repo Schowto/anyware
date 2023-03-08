@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.aw.anyware.approval.dao.ApprovalDao;
 import com.aw.anyware.approval.vo.Approval;
+import com.aw.anyware.common.model.vo.PageInfo;
 
 @Service
 public class ApprovalServiceImpl implements ApprovalService {
@@ -19,13 +20,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 	private ApprovalDao aDao;
 	
 	@Override
-	public int selectListCount() {
-		return aDao.selectListCount(sqlSession);
+	public int selectListCountCon(int userNo) {
+		return aDao.selectListCountCon(sqlSession, userNo);
 	}
 	
 	@Override
-	public ArrayList<Approval> selectList() {
-		return aDao.selectList(sqlSession);
+	public ArrayList<Approval> selectListCon(int userNo, PageInfo pi) {
+		return aDao.selectListCon(sqlSession, userNo, pi);
 	}
 
 

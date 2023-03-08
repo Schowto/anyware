@@ -15,17 +15,24 @@ public class Approval {
 	
 	private int approNo;
 	
-	private int approWirter;
+	private String wirterNo;
+	private String writerName;
 	private String writerJob;
 	
-	private int tlpNo;
+	private int tplNo;
+	private String tplTitle;
 	
 	private String approTitle;
 	private String approContent;
 	
 	private int interNo;
+	private String interName;
+	private String interJob;
 	private String interAppro;
+	
 	private int finalNo;
+	private String finalName;
+	private String finalJob;
 	private String finalAppro;
 	
 	private String createDate;
