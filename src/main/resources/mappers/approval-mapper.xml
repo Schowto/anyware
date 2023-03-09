@@ -29,53 +29,208 @@
 		 -->
 	</resultMap>
 	
-	<sql id="selectListCount">
+	<!-- ==================================================================== -->
+
+	<sql id="ingCount">
 		select count(*)
 		  from tb_approval
-		 where status = 'Y' 
-		   and member_no = #{userNo}
+		 where status = 'Y'
+	   and not inter_appro = '반려'  
+		   and final_appro = '대기'
 	</sql>
 	
-	<select id="selectListCountCon" resultType="_int">
-		<include refid="selectListCount"/>
-		and final_appro = '대기'
+	<sql id="endCount">
+		select count(*)
+		  from tb_approval
+		 where status = 'Y'
+	       and (
+       				inter_appro = '반려' 
+       		     or final_appro in ('결재', '반려')
+       		     or (
+       		     	     inter_appro = '결재'
+       		     	 and final_appro = '결재'	
+       		     	)
+       		    )
+	</sql>
+	
+	<select id="ingCountAll" resultType="_int">
+		<include refid="ingCount"/>
+		and(
+				member_no = #{userNo}
+			 or (
+					inter_appro = '대기' 
+	       		and inter_no = #{userNo} 
+	        	 or inter_appro = '결재'	
+				and final_no = #{userNo}
+				)
+			or  (
+					    inter_appro = '대기' 
+				    and final_no = #{userNo}	
+			)			
+		)
+	</select>
+	
+	<select id="ingCountContinue" resultType="_int">
+		<include refid="ingCount"/>
+		and member_no = #{userNo}
+	</select>
+	
+	<select id="ingCountWait" resultType="_int">
+		<include refid="ingCount"/>
+		and (
+				inter_appro = '대기' 
+       		and inter_no = #{userNo} 
+        	 or inter_appro = '결재'	
+			and final_no = #{userNo}
+			)
+	</select>
+	
+	<select id="ingCountExpected" resultType="_int">
+		<include refid="ingCount"/>
+		 and inter_appro = '대기' 
+		 and final_no = #{userNo}	
+	</select>
+	
+	<select id="ingCountRef" resultType="_int">
+		<include refid="ingCount"/>
+	</select>
+	
+	<select id="endCountAll" resultType="_int">
+		<include refid="endCount"/>
+	</select>
+	
+	<select id="endCountSuggest" resultType="_int">
+		<include refid="endCount"/>
+		and member_no = #{userNo}
+	</select>
+	
+	<select id="endCountConfirm" resultType="_int">
+		<include refid="endCount"/>
+	</select>
+	
+	<select id="endCountOpen" resultType="_int">
+		<include refid="endCount"/>
 	</select>
 	
 	<!-- ========================================================================== -->
 	
-	<sql id="selectList">
-		select appro_no
+	<sql id="ingList">
+			select appro_no
 			     , m.name as writer_name
 	             , m.job_name as writer_job
+                 , i.name as inter_name
 	             , a.inter_appro
+                 , f.name as final_name
 	             , a.final_appro
 	             , t.tpl_title 
 	             , appro_title
 	             , create_date
-	     from tb_approval a
-	     inner join tb_member m on ( a.member_no = m.member_no)
-	     inner join tb_app_tpl t on ( a.tpl_no = t.tpl_no)
-	    where a.status = 'Y' 
+	 	      from tb_approval a
+		     inner join tb_member m on ( a.member_no = m.member_no)
+	         inner join tb_member i on ( a.inter_no = i.member_no)
+	         inner join tb_member f on ( a.final_no = f.member_no)
+		     inner join tb_app_tpl t on ( a.tpl_no = t.tpl_no)
+		     where a.status = 'Y' 
+		   and not inter_appro = '반려'  
+		       and final_appro = '대기'
 	</sql>
 	
-	<select id="selectListCon" resultMap="approvalResult">
-		<include refid="selectList"/>
-	    and a.member_no = #{userNo}
-		and final_appro = '대기'
+	<sql id="endList">
+			select appro_no
+			     , m.name as writer_name
+	             , m.job_name as writer_job
+                 , i.name as inter_name
+	             , a.inter_appro
+                 , f.name as final_name
+	             , a.final_appro
+	             , t.tpl_title 
+	             , appro_title
+	             , create_date
+	 	      from tb_approval a
+		     inner join tb_member m on ( a.member_no = m.member_no)
+	         inner join tb_member i on ( a.inter_no = i.member_no)
+	         inner join tb_member f on ( a.final_no = f.member_no)
+		     inner join tb_app_tpl t on ( a.tpl_no = t.tpl_no)
+		      where a.status = 'Y'
+	       and (
+       				inter_appro = '반려' 
+       		     or final_appro in ('결재', '반려')
+       		     or (
+       		     	     inter_appro = '결재'
+       		     	 and final_appro = '결재'	
+       		     	)
+       		    )
+	</sql>
+	
+	<select id="ingListAll" resultMap="approvalResult">
+		<include refid="ingList"/>
+		<!-- 자신이 기안한 결재가 가장 상위로 오도록 -->
+		and(
+				a.member_no = #{userNo}
+				
+			 or (
+					inter_appro = '대기' 
+	       		and inter_no = #{userNo} 
+	        	 or inter_appro = '결재'	
+				and final_no = #{userNo}
+				)
+				
+			or  (
+					    inter_appro = '대기' 
+				    and final_no = #{userNo}	
+				)			
+		)
+		order
+		    by (case when a.member_no = #{userNo} then 1 else 2 end)
+	</select>
+	
+	<select id="ingListContinue" resultMap="approvalResult">
+		<include refid="ingList"/>
+		and a.member_no = #{userNo}	
+	</select>
+		
+	<select id="ingListWait" resultMap="approvalResult">
+		<include refid="ingList"/>
+		and (
+				inter_appro = '대기' 
+       		and inter_no = #{userNo} 
+        	 or inter_appro = '결재'	
+			and final_no = #{userNo}
+			)
+	</select>
+		
+	<select id="ingListExpected" resultMap="approvalResult">
+		<include refid="ingList"/>
+		 and inter_appro = '대기' 
+		 and final_no = #{userNo}
+	</select>
+		
+	<select id="ingListRef" resultMap="approvalResult">
+		<include refid="ingList"/>
+	</select>
+		
+	<select id="endListAll" resultMap="approvalResult">
+		<include refid="endList"/>
+		order
+	    by (case when a.member_no = #{userNo} then 1 else 2 end)
+	</select>
+		
+	<select id="endListSuggest" resultMap="approvalResult">
+		<include refid="endList"/>
+		and a.member_no = #{userNo}	
+	</select>
+		
+	<select id="endListConfirm" resultMap="approvalResult">
+		<include refid="endList"/>
+	</select>
+		
+	<select id="endListOpen" resultMap="approvalResult">
+		<include refid="endList"/>
 	</select>
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+<!-- ========================================================================================= -->		
 		
 	<select id="selectAppro1" resultMap="approvalResult">
 				select appro_no

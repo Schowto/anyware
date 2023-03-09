@@ -12,17 +12,75 @@ import com.aw.anyware.common.model.vo.PageInfo;
 @Repository
 public class ApprovalDao {
 	
-	public int selectListCountCon(SqlSessionTemplate sqlSession, int userNo) {
-		return sqlSession.selectOne("approvalMapper.selectListCountCon", userNo);
+	public int ingCountAll(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.selectOne("approvalMapper.ingCountAll", userNo);
 	}
 	
-	public ArrayList<Approval> selectListCon(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {
-		
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-		int limit = pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		
-		return (ArrayList)sqlSession.selectList("approvalMapper.selectListCon", userNo, rowBounds);
+	public int ingCountContinue(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.selectOne("approvalMapper.ingCountContinue", userNo);
 	}
-
+	
+	public int ingCountWait(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.selectOne("approvalMapper.ingCountWait", userNo);
+	}
+	
+	public int ingCountExpected(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.selectOne("approvalMapper.ingCountExpected", userNo);
+	}
+	
+	public int ingCountRef(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.selectOne("approvalMapper.ingCountRef", userNo);
+	}
+	
+	public int endCountAll(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.selectOne("approvalMapper.endCountAll", userNo);
+	}
+	
+	public int endCountSuggest(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.selectOne("approvalMapper.endCountSuggest", userNo);
+	}
+	
+	public int endCountConfirm(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.selectOne("approvalMapper.endCountConfirm", userNo);
+	}
+	
+	public int endCountOpen(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.selectOne("approvalMapper.endCountOpen", userNo);
+	}
+	
+	/*  =============================================================  */
+	
+	public ArrayList<Approval> ingListAll(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.ingListAll", userNo, pi.getRowBounds());
+	}
+	
+	public ArrayList<Approval> ingListContinue(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.ingListContinue", userNo, pi.getRowBounds());
+	}
+	
+	public ArrayList<Approval> ingListWait(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.ingListWait", userNo, pi.getRowBounds());
+	}
+	
+	public ArrayList<Approval> ingListExpected(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.ingListExpected", userNo, pi.getRowBounds());
+	}
+	
+	public ArrayList<Approval> ingListRef(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.ingListRef", userNo, pi.getRowBounds());
+	}
+	
+	public ArrayList<Approval> endListSuggest(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.endListSuggest", userNo, pi.getRowBounds());
+	}
+	
+	public ArrayList<Approval> endListConfirm(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.endListConfirm", userNo, pi.getRowBounds());
+	}
+	
+	public ArrayList<Approval> endListOpen(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.endListOpen", userNo, pi.getRowBounds());
+	}
+	
+	
 }

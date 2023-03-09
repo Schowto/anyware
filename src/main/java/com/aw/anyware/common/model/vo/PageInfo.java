@@ -1,5 +1,7 @@
 package com.aw.anyware.common.model.vo;
 
+import org.apache.ibatis.session.RowBounds;
+
 public class PageInfo {
 	
 	private int listCount;
@@ -87,5 +89,12 @@ public class PageInfo {
 				+ endPage + "]";
 	}
 	
+	public  RowBounds getRowBounds() {
+		int offset = (this.currentPage - 1) * this.boardLimit;
+		int limit = this.boardLimit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return rowBounds;
+	}
 
 }
