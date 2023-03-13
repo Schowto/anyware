@@ -104,7 +104,7 @@
 		select count(*)
 		  from tb_app_ref 
 		 where ref_lvl = '참조'
-		   and member_no = 1
+		   and member_no = #{userNo}
 	</select>
 	
 	<select id="ingArrayRef" resultType="int">
@@ -125,10 +125,19 @@
 	
 	<select id="endCountConfirm" resultType="_int">
 		<include refid="endCount"/>
+		and (inter_no = #{userNo} or final_no = #{userNo})
 	</select>
 	
 	<select id="endCountOpen" resultType="_int">
-		<include refid="endCount"/>
+		select count(*)
+		  from tb_app_ref 
+		 where member_no = #{userNo}
+	</select>
+
+	<select id="endArrayOpen" resultType="int">
+		select appro_no
+		  from tb_app_ref 
+		 where member_no = #{userNo}
 	</select>
 	
 	<!-- ========================================================================== -->
@@ -262,10 +271,16 @@
 	<select id="endListConfirm" resultMap="approvalResult">
 		<include refid="endList"/>
 		and (inter_no = #{userNo} or final_no = #{userNo})
+		<include refid="order"/>
 	</select>
 		
 	<select id="endListOpen" resultMap="approvalResult">
 		<include refid="endList"/>
+		and appro_no in 
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+		<include refid="order"/>
 	</select>
 		
 <!-- ========================================================================================= -->		
@@ -278,9 +293,11 @@
                  , i.name as inter_name
                  , i.dept_name as inter_dept
                  , i.job_name as inter_job
+                 , a.inter_appro
                  , f.name as final_name
                  , f.dept_name as final_dept
                  , f.job_name as final_job
+                 , a.final_appro
 	             , t.tpl_title 
 	             , appro_title
 	             , appro_content
@@ -291,23 +308,25 @@
          inner join tb_member f on ( a.final_no = f.member_no)
 	     inner join tb_app_tpl t on ( a.tpl_no = t.tpl_no)
 	    where a.status = 'Y' 
-	      and a.member_no = #{userNo}
+	      and a.appro_no = #{approNo}
 	</select>	
  	 
  	<select id="selectRef" resultType="String">
- 		    select ref_no,
+ 		    select 
       			   m.name as ref_name
 		      from tb_app_ref r
 		      join tb_member m on (r.member_no = m.member_no)
-		     where ref_lvl = '참조' 
+		     where ref_lvl = '참조'
+		     and r.appro_no = #{approNo} 
  	</select>
    
  	<select id="selectOpen" resultType="String">
- 		    select ref_no,
+ 		    select 
       			   m.name as ref_name
 		      from tb_app_ref r
 		      join tb_member m on (r.member_no = m.member_no)
-		     where ref_lvl = '열람' 
+		     where ref_lvl = '열람'
+		     and r.appro_no = #{approNo} 
  	</select>
    
    

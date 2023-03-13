@@ -81,8 +81,9 @@ public class ApprovalController {
 				break;
 			case "endListOpen" :
 				listCount = aService.endCountOpen(userNo);
+				ArrayList<Integer> endArrayOpen= aService.endArrayOpen(userNo);
 				pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
-				list = aService.endListOpen(userNo, pi);
+				list = aService.endListOpen(endArrayOpen, pi);
 				break;
 		}
 		
@@ -90,12 +91,26 @@ public class ApprovalController {
 		model.addAttribute("pi", pi);
 		model.addAttribute("cat", cat);
 		
-		return "approval/approvalListView";
+		return "approval/approListView";
 	}
 	
 	@RequestMapping("enroll.appro")
 	public String enrollAppro() {
-		return "approval/approvalEnrollForm";
+		return "approval/approEnrollForm";
+	}
+	
+	@RequestMapping("detail.appro")
+	public String selectAppro(int approNo, Model model) {
+		
+		Approval appro = aService.selectAppro(approNo);
+		ArrayList<String> ref = aService.selectRef(approNo);
+		ArrayList<String> open = aService.selectOpen(approNo);
+		
+		model.addAttribute("appro", appro);
+		model.addAttribute("ref", ref);
+		model.addAttribute("open", open);
+		
+		return "approval/approDetailView"; 
 	}
 	
 

@@ -47,7 +47,7 @@
             
             <ul>
                 <span style="font-weight: 600;">진행중인 문서</span><br><br>
-                <li id="ingListAll" onclick='location.href="list.appro?cat=ingListAll";'>&nbsp;&nbsp;전체</li>
+                <!-- <li id="ingListAll" onclick='location.href="list.appro?cat=ingListAll";'>&nbsp;&nbsp;전체</li> -->
                 <li id="ingListContinue" onclick='location.href="list.appro?cat=ingListContinue"'>&nbsp;&nbsp;진행</li>
                 <li id="ingListWait" onclick='location.href="list.appro?cat=ingListWait"'>&nbsp;&nbsp;대기</li>
                 <li id="ingListExpected" onclick='location.href="list.appro?cat=ingListExpected"'>&nbsp;&nbsp;예정</li>
@@ -59,7 +59,7 @@
 
             <ul>
                 <span style="font-weight: 600;">문서함</span><br><br>
-                <li id=endListAll onclick='location.href="list.appro?cat=endListAll"'>&nbsp;&nbsp;전체</li>
+                <!-- <li id=endListAll onclick='location.href="list.appro?cat=endListAll"'>&nbsp;&nbsp;전체</li> -->
                 <li id="endListSuggest" onclick='location.href="list.appro?cat=endListSuggest"'>&nbsp;&nbsp;기안</li>
                 <li id="endListConfirm" onclick='location.href="list.appro?cat=endListConfirm"'>&nbsp;&nbsp;결재</li>
                 <li id="endListOpen" onclick='location.href="list.appro?cat=endListOpen"'>&nbsp;&nbsp;열람</li>

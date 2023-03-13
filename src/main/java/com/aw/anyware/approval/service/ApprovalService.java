@@ -33,9 +33,12 @@ public interface ApprovalService {
 	public ArrayList<Approval> endListConfirm(int userNo, PageInfo pi);
 	
 	public int endCountOpen(int userNo);
-	public ArrayList<Approval> endListOpen(int userNo, PageInfo pi);
+	public ArrayList<Integer> endArrayOpen(int userNo);
+	public ArrayList<Approval> endListOpen(ArrayList<Integer> endArrayOpen, PageInfo pi);
 	
+	public Approval selectAppro(int approNo);
+	public ArrayList<String> selectRef(int approNo);
+	public ArrayList<String> selectOpen(int approNo);
 	
-
 
 }

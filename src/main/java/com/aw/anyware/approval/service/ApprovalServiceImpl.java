@@ -76,43 +76,65 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 	@Override
 	public int endCountAll(int userNo) {
-		return 0;
+		return aDao.endCountAll(sqlSession, userNo);
 	}
 
 	@Override
 	public ArrayList<Approval> endListAll(int userNo, PageInfo pi) {
-		return null;
+		return aDao.endListAll(sqlSession, userNo, pi);
 	}
 
 	@Override
 	public int endCountSuggest(int userNo) {
-		return 0;
+		return aDao.endCountSuggest(sqlSession, userNo);
 	}
 
 	@Override
 	public ArrayList<Approval> endListSuggest(int userNo, PageInfo pi) {
-		return null;
+		return aDao.endListSuggest(sqlSession, userNo, pi);
 	}
 
 	@Override
 	public int endCountConfirm(int userNo) {
-		return 0;
+		return aDao.endCountConfirm(sqlSession, userNo);
 	}
 
 	@Override
 	public ArrayList<Approval> endListConfirm(int userNo, PageInfo pi) {
-		return null;
+		return aDao.endListConfirm(sqlSession, userNo, pi);
 	}
 
 	@Override
 	public int endCountOpen(int userNo) {
-		return 0;
+		return aDao.endCountOpen(sqlSession, userNo);
+	}
+	
+	@Override
+	public ArrayList<Integer> endArrayOpen(int userNo) {
+		return aDao.endArrayOpen(sqlSession, userNo);
 	}
 
 	@Override
-	public ArrayList<Approval> endListOpen(int userNo, PageInfo pi) {
-		return null;
+	public ArrayList<Approval> endListOpen(ArrayList<Integer> endArrayOpen, PageInfo pi) {
+		return aDao.endListOpen(sqlSession, endArrayOpen, pi);
 	}
+
+	@Override
+	public Approval selectAppro(int approNo) {
+		return aDao.selectAppro(sqlSession, approNo);
+	}
+
+	@Override
+	public ArrayList<String> selectRef(int approNo) {
+		return aDao.selectRef(sqlSession, approNo);
+	}
+
+	@Override
+	public ArrayList<String> selectOpen(int approNo) {
+		return aDao.selectOpen(sqlSession, approNo);
+	}
+
+	
 
 
 

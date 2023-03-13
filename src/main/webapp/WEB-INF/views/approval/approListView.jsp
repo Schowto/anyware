@@ -72,7 +72,7 @@
                     </c:when>
                     <c:otherwise>
                     	<c:forEach var="a" items="${list}">
-	                        <tr onclick="location.href='enroll.appro;'">
+	                        <tr>
 	                        	<td>${a.approNo}</td>
 	                        	<td>${a.approTitle}</td>
 	                        	<td>${a.writerJob}</td>
@@ -90,6 +90,20 @@
 		    </tbody>
 		</table>
 		</div>
+			
+	<script>
+		<!-- 결재 상세 페이지-->
+		$(function(){
+			$(".list-area>tbody>tr").click(function(){
+				if(${cat eq 'ingListContinue'}){
+					location.href ='update.appro?approNo='+$(this).children().eq(0).text();
+				} else {
+					location.href ='detail.appro?approNo='+$(this).children().eq(0).text();
+				}
+			})
+		})
+	</script>	
+		
 		
 		<ul class="page pagination">
                     

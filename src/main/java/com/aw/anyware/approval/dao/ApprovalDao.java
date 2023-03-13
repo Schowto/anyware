@@ -34,8 +34,6 @@ public class ApprovalDao {
 	}
 	
 	public ArrayList<Integer>ingArrayRef(SqlSessionTemplate sqlSession, int userNo) {
-		System.out.println(userNo);
-		System.out.println((ArrayList)sqlSession.selectList("approvalMapper.ingArrayRef", userNo));
 		return (ArrayList)sqlSession.selectList("approvalMapper.ingArrayRef", userNo);
 	}
 	
@@ -54,6 +52,11 @@ public class ApprovalDao {
 	public int endCountOpen(SqlSessionTemplate sqlSession, int userNo) {
 		return sqlSession.selectOne("approvalMapper.endCountOpen", userNo);
 	}
+	
+	public ArrayList<Integer>endArrayOpen(SqlSessionTemplate sqlSession, int userNo) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.endArrayOpen", userNo);
+	}
+	
 	
 	/*  =============================================================  */
 	
@@ -77,6 +80,10 @@ public class ApprovalDao {
 		return (ArrayList)sqlSession.selectList("approvalMapper.ingListRef", ingArrayRef, pi.getRowBounds());
 	}
 	
+	public ArrayList<Approval> endListAll(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.endListAll", userNo, pi.getRowBounds());
+	}
+	
 	public ArrayList<Approval> endListSuggest(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {
 		return (ArrayList)sqlSession.selectList("approvalMapper.endListSuggest", userNo, pi.getRowBounds());
 	}
@@ -85,9 +92,22 @@ public class ApprovalDao {
 		return (ArrayList)sqlSession.selectList("approvalMapper.endListConfirm", userNo, pi.getRowBounds());
 	}
 	
-	public ArrayList<Approval> endListOpen(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {
-		return (ArrayList)sqlSession.selectList("approvalMapper.endListOpen", userNo, pi.getRowBounds());
+	public ArrayList<Approval> endListOpen(SqlSessionTemplate sqlSession, ArrayList<Integer> endArrayOpen, PageInfo pi) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.endListOpen", endArrayOpen, pi.getRowBounds());
 	}
 	
+	//
+	
+	public Approval selectAppro(SqlSessionTemplate sqlSession, int approNo) {
+		return (Approval)sqlSession.selectOne("approvalMapper.selectAppro", approNo);
+	}
+	
+	public ArrayList<String> selectRef(SqlSessionTemplate sqlSession, int approNo){
+		return (ArrayList) sqlSession.selectList("approvalMapper.selectRef", approNo);
+	}
+	
+	public ArrayList<String> selectOpen(SqlSessionTemplate sqlSession, int approNo){
+		return (ArrayList) sqlSession.selectList("approvalMapper.selectOpen", approNo);
+	}
 	
 }
