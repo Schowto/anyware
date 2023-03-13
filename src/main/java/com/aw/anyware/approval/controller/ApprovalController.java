@@ -60,8 +60,9 @@ public class ApprovalController {
 				break;
 			case "ingListRef" :
 				listCount = aService.ingCountRef(userNo);
+				ArrayList<Integer> ingArrayRef= aService.ingArrayRef(userNo);
 				pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
-				list = aService.ingListRef(userNo, pi);
+				list = aService.ingListRef(ingArrayRef, pi);
 				break;
 			case "endListAll" :
 				listCount = aService.endCountAll(userNo);

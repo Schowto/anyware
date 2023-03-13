@@ -52,9 +52,9 @@
 		    <thead>
 		        <tr>
 		           <th width="5px">번호</th>
-		           <th width="50px">제목</th>
-		           <th width="30px">기안자</th>
+		           <th width="80px">제목</th>
 		           <th width="20px">직급</th>
+		           <th width="30px">기안자</th>
 		           <th width="30px">중간결재자</th>
 		           <th width="40px">중간결재여부</th>
 		           <th width="30px">최종결재자</th>
@@ -75,8 +75,8 @@
 	                        <tr onclick="location.href='enroll.appro;'">
 	                        	<td>${a.approNo}</td>
 	                        	<td>${a.approTitle}</td>
-	                        	<td>${a.writerName}</td>
 	                        	<td>${a.writerJob}</td>
+	                        	<td>${a.writerName}</td>
 	                        	<td>${a.interName}</td>
 	                        	<td>${a.interAppro}</td>
 	                        	<td>${a.finalName}</td>

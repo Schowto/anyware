@@ -63,10 +63,15 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int ingCountRef(int userNo) {
 		return aDao.ingCountRef(sqlSession, userNo);
 	}
-
+	
 	@Override
-	public ArrayList<Approval> ingListRef(int userNo, PageInfo pi) {
-		return aDao.ingListRef(sqlSession, userNo, pi);
+	public ArrayList<Integer> ingArrayRef(int userNo) {
+		return aDao.ingArrayRef(sqlSession, userNo);
+	}
+		
+	@Override
+	public ArrayList<Approval> ingListRef(ArrayList<Integer> ingArrayRef, PageInfo pi) {
+		return aDao.ingListRef(sqlSession, ingArrayRef, pi);
 	}
 
 	@Override
@@ -108,6 +113,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public ArrayList<Approval> endListOpen(int userNo, PageInfo pi) {
 		return null;
 	}
+
 
 
 }

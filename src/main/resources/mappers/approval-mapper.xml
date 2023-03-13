@@ -4,20 +4,29 @@
   
 	<resultMap id="approvalResult" type="Approval">
 		<id column="appro_no" property="approNo"/>
-			<result column="writer_name" property="writerName"/>
-			<result column="writer_job" property="writerJob"/>
-			<result column="tpl_title" property="tplTitle"/>
-			<result column="appro_title" property="approTitle"/>
-			<result column="appro_content" property="approContent"/>
-			<result column="inter_no" property="interNo"/>
-			<result column="inter_name" property="interName"/>
-			<result column="inter_job" property="interJob"/>
-			<result column="inter_appro" property="interAppro"/>
-			<result column="final_no" property="finalNo"/>
-			<result column="final_name" property="finalName"/>
-			<result column="final_job" property="finalJob"/>
-			<result column="final_appro" property="finalAppro"/>
-			<result column="create_date" property="createDate"/>
+		<result column="writer_name" property="writerName"/>
+		<result column="writer_job" property="writerJob"/>
+		<result column="writer_dept" property="writerDept"/>
+		
+		<result column="tpl_title" property="tplTitle"/>
+		<result column="appro_title" property="approTitle"/>
+		<result column="appro_content" property="approContent"/>
+		
+		<result column="inter_no" property="interNo"/>
+		<result column="inter_name" property="interName"/>
+		<result column="inter_job" property="interJob"/>
+		<result column="inter_dept" property="interDept"/>
+		
+		<result column="inter_appro" property="interAppro"/>
+		
+		<result column="final_no" property="finalNo"/>
+		<result column="final_name" property="finalName"/>
+		<result column="final_job" property="finalJob"/>
+		<result column="final_dept" property="finalDept"/>
+		
+		<result column="final_appro" property="finalAppro"/>
+		
+		<result column="create_date" property="createDate"/>
 		 <!-- 	
 		<collection property="refNo" ofType="Integer">
 			<result column="refMem_No"/>
@@ -92,7 +101,17 @@
 	</select>
 	
 	<select id="ingCountRef" resultType="_int">
-		<include refid="ingCount"/>
+		select count(*)
+		  from tb_app_ref 
+		 where ref_lvl = '참조'
+		   and member_no = 1
+	</select>
+	
+	<select id="ingArrayRef" resultType="int">
+		select appro_no
+		  from tb_app_ref 
+		 where ref_lvl = '참조'
+		   and member_no = #{userNo}
 	</select>
 	
 	<select id="endCountAll" resultType="_int">
@@ -156,19 +175,24 @@
        				inter_appro = '반려' 
        		     or final_appro in ('결재', '반려')
        		     or (
-       		     	     inter_appro = '결재'
+      		     	 	 inter_appro = '결재'
        		     	 and final_appro = '결재'	
        		     	)
        		    )
 	</sql>
 	
+	<sql id="order">
+		order 
+		   by appro_no asc
+	</sql>
+	
 	<select id="ingListAll" resultMap="approvalResult">
+		
 		<include refid="ingList"/>
-		<!-- 자신이 기안한 결재가 가장 상위로 오도록 -->
 		and(
 				a.member_no = #{userNo}
 				
-			 or (
+			or (
 					inter_appro = '대기' 
 	       		and inter_no = #{userNo} 
 	        	 or inter_appro = '결재'	
@@ -176,17 +200,17 @@
 				)
 				
 			or  (
-					    inter_appro = '대기' 
-				    and final_no = #{userNo}	
+				    inter_appro = '대기' 
+			    and final_no = #{userNo}	
 				)			
 		)
-		order
-		    by (case when a.member_no = #{userNo} then 1 else 2 end)
+		<include refid="order"/>
 	</select>
 	
 	<select id="ingListContinue" resultMap="approvalResult">
 		<include refid="ingList"/>
 		and a.member_no = #{userNo}	
+		<include refid="order"/>
 	</select>
 		
 	<select id="ingListWait" resultMap="approvalResult">
@@ -197,51 +221,69 @@
         	 or inter_appro = '결재'	
 			and final_no = #{userNo}
 			)
+		<include refid="order"/>
 	</select>
 		
 	<select id="ingListExpected" resultMap="approvalResult">
 		<include refid="ingList"/>
 		 and inter_appro = '대기' 
 		 and final_no = #{userNo}
+		 <include refid="order"/>
 	</select>
 		
 	<select id="ingListRef" resultMap="approvalResult">
 		<include refid="ingList"/>
+		and appro_no in 
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+		<include refid="order"/>
 	</select>
 		
 	<select id="endListAll" resultMap="approvalResult">
 		<include refid="endList"/>
-		order
-	    by (case when a.member_no = #{userNo} then 1 else 2 end)
+		and ( 	
+				a.member_no = #{userNo}	
+			or
+				(
+				   inter_no = #{userNo} 
+				or final_no = #{userNo}
+				)
+			)		
+		<include refid="order"/>
 	</select>
 		
 	<select id="endListSuggest" resultMap="approvalResult">
 		<include refid="endList"/>
 		and a.member_no = #{userNo}	
+		<include refid="order"/>
 	</select>
 		
 	<select id="endListConfirm" resultMap="approvalResult">
 		<include refid="endList"/>
+		and (inter_no = #{userNo} or final_no = #{userNo})
 	</select>
 		
 	<select id="endListOpen" resultMap="approvalResult">
 		<include refid="endList"/>
 	</select>
 		
-		
-		
 <!-- ========================================================================================= -->		
-		
-	<select id="selectAppro1" resultMap="approvalResult">
-				select appro_no
+			 
+	<select id="selectAppro" resultMap="approvalResult">
+			select appro_no
 			     , m.name as writer_name
 	             , m.job_name as writer_job
+	             , m.dept_name as writer_dept
                  , i.name as inter_name
+                 , i.dept_name as inter_dept
                  , i.job_name as inter_job
                  , f.name as final_name
+                 , f.dept_name as final_dept
                  , f.job_name as final_job
 	             , t.tpl_title 
 	             , appro_title
+	             , appro_content
 	             , create_date
 	     from tb_approval a
 	     inner join tb_member m on ( a.member_no = m.member_no)
@@ -251,25 +293,22 @@
 	    where a.status = 'Y' 
 	      and a.member_no = #{userNo}
 	</select>	
- 	
- 
- 	<select id="selectAppro2" resultMap="approvalResult">
-		select appro_no
-	    	 , a.member_no 
-             , appro_title
-             , appro_content
-             , inter_no
-             , i.name "중간결재자"
-             , inter_appro
-             , final_no
-             , final_appro
-             , create_date
-	      from tb_approval a
-	     inner join tb_member m on ( a.member_no = m.member_no)
-	     inner join tb_member i on (a.inter_no = i.member_no)
-	     where a.status = 'Y' 
+ 	 
+ 	<select id="selectRef" resultType="String">
+ 		    select ref_no,
+      			   m.name as ref_name
+		      from tb_app_ref r
+		      join tb_member m on (r.member_no = m.member_no)
+		     where ref_lvl = '참조' 
  	</select>
-  
+   
+ 	<select id="selectOpen" resultType="String">
+ 		    select ref_no,
+      			   m.name as ref_name
+		      from tb_app_ref r
+		      join tb_member m on (r.member_no = m.member_no)
+		     where ref_lvl = '열람' 
+ 	</select>
    
    
 </mapper>

@@ -15,7 +15,8 @@ public class Approval {
 	
 	private int approNo;
 	
-	private String wirterNo;
+	private String writerNo;
+	private String writerDept;
 	private String writerName;
 	private String writerJob;
 	
@@ -26,11 +27,13 @@ public class Approval {
 	private String approContent;
 	
 	private int interNo;
+	private String interDept;
 	private String interName;
 	private String interJob;
 	private String interAppro;
 	
 	private int finalNo;
+	private String finalDept;
 	private String finalName;
 	private String finalJob;
 	private String finalAppro;

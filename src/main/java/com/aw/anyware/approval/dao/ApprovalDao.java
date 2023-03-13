@@ -1,6 +1,7 @@
 package com.aw.anyware.approval.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -30,6 +31,12 @@ public class ApprovalDao {
 	
 	public int ingCountRef(SqlSessionTemplate sqlSession, int userNo) {
 		return sqlSession.selectOne("approvalMapper.ingCountRef", userNo);
+	}
+	
+	public ArrayList<Integer>ingArrayRef(SqlSessionTemplate sqlSession, int userNo) {
+		System.out.println(userNo);
+		System.out.println((ArrayList)sqlSession.selectList("approvalMapper.ingArrayRef", userNo));
+		return (ArrayList)sqlSession.selectList("approvalMapper.ingArrayRef", userNo);
 	}
 	
 	public int endCountAll(SqlSessionTemplate sqlSession, int userNo) {
@@ -66,8 +73,8 @@ public class ApprovalDao {
 		return (ArrayList)sqlSession.selectList("approvalMapper.ingListExpected", userNo, pi.getRowBounds());
 	}
 	
-	public ArrayList<Approval> ingListRef(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {
-		return (ArrayList)sqlSession.selectList("approvalMapper.ingListRef", userNo, pi.getRowBounds());
+	public ArrayList<Approval> ingListRef(SqlSessionTemplate sqlSession, ArrayList<Integer> ingArrayRef, PageInfo pi) {
+		return (ArrayList)sqlSession.selectList("approvalMapper.ingListRef", ingArrayRef, pi.getRowBounds());
 	}
 	
 	public ArrayList<Approval> endListSuggest(SqlSessionTemplate sqlSession, int userNo, PageInfo pi) {

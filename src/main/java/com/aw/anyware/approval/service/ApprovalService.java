@@ -20,7 +20,8 @@ public interface ApprovalService {
 	public ArrayList<Approval> ingListExpected(int userNo, PageInfo pi);
 	
 	public int ingCountRef(int userNo);
-	public ArrayList<Approval> ingListRef(int userNo, PageInfo pi);
+	public ArrayList<Integer> ingArrayRef(int userNo);
+	public ArrayList<Approval> ingListRef(ArrayList<Integer> ingArrayRef, PageInfo pi);
 	
 	public int endCountAll(int userNo);
 	public ArrayList<Approval> endListAll(int userNo, PageInfo pi);
