@@ -27,7 +27,7 @@
 		<result column="final_appro" property="finalAppro"/>
 		
 		<result column="create_date" property="createDate"/>
-		 <!-- 	
+		<!-- 	
 		<collection property="refNo" ofType="Integer">
 			<result column="refMem_No"/>
 		</collection>
@@ -75,8 +75,8 @@
 			or  (
 					    inter_appro = '대기' 
 				    and final_no = #{userNo}	
-			)			
-		)
+				)
+			)
 	</select>
 	
 	<select id="ingCountContinue" resultType="_int">
@@ -116,6 +116,14 @@
 	
 	<select id="endCountAll" resultType="_int">
 		<include refid="endCount"/>
+			and ( 	
+				member_no = #{userNo}	
+			or
+				(
+				   inter_no = #{userNo} 
+				or final_no = #{userNo}
+				)
+			)
 	</select>
 	
 	<select id="endCountSuggest" resultType="_int">
@@ -211,8 +219,8 @@
 			or  (
 				    inter_appro = '대기' 
 			    and final_no = #{userNo}	
-				)			
-		)
+				)
+			)
 		<include refid="order"/>
 	</select>
 	
@@ -258,7 +266,8 @@
 				   inter_no = #{userNo} 
 				or final_no = #{userNo}
 				)
-			)		
+			)
+					
 		<include refid="order"/>
 	</select>
 		

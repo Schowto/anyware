@@ -47,11 +47,11 @@
             
             <ul>
                 <span style="font-weight: 600;">진행중인 문서</span><br><br>
-                <!-- <li id="ingListAll" onclick='location.href="list.appro?cat=ingListAll";'>&nbsp;&nbsp;전체</li> -->
-                <li id="ingListContinue" onclick='location.href="list.appro?cat=ingListContinue"'>&nbsp;&nbsp;진행</li>
-                <li id="ingListWait" onclick='location.href="list.appro?cat=ingListWait"'>&nbsp;&nbsp;대기</li>
-                <li id="ingListExpected" onclick='location.href="list.appro?cat=ingListExpected"'>&nbsp;&nbsp;예정</li>
-                <li id="ingListRef" onclick='location.href="list.appro?cat=ingListRef"'>&nbsp;&nbsp;확인</li>
+                <li id="ingListAll" onclick='location.href="ingListAll.appro?cat=ingListAll";'>&nbsp;&nbsp;전체</li>
+                <li id="ingListContinue" onclick='location.href="ingListContinue.appro?cat=ingListContinue"'>&nbsp;&nbsp;진행</li>
+                <li id="ingListWait" onclick='location.href="ingListWait.appro?cat=ingListWait"'>&nbsp;&nbsp;대기</li>
+                <li id="ingListExpected" onclick='location.href="ingListExpected.appro?cat=ingListExpected"'>&nbsp;&nbsp;예정</li>
+                <li id="ingListRef" onclick='location.href="ingListRef.appro?cat=ingListRef"'>&nbsp;&nbsp;확인</li>
                 <li>
             </ul>
 
@@ -59,10 +59,10 @@
 
             <ul>
                 <span style="font-weight: 600;">문서함</span><br><br>
-                <!-- <li id=endListAll onclick='location.href="list.appro?cat=endListAll"'>&nbsp;&nbsp;전체</li> -->
-                <li id="endListSuggest" onclick='location.href="list.appro?cat=endListSuggest"'>&nbsp;&nbsp;기안</li>
-                <li id="endListConfirm" onclick='location.href="list.appro?cat=endListConfirm"'>&nbsp;&nbsp;결재</li>
-                <li id="endListOpen" onclick='location.href="list.appro?cat=endListOpen"'>&nbsp;&nbsp;열람</li>
+                <li id=endListAll onclick='location.href="endListAll.appro?cat=endListAll"'>&nbsp;&nbsp;전체</li>
+                <li id="endListSuggest" onclick='location.href="endListSuggest.appro?cat=endListSuggest"'>&nbsp;&nbsp;기안</li>
+                <li id="endListConfirm" onclick='location.href="endListConfirm.appro?cat=endListConfirm"'>&nbsp;&nbsp;결재</li>
+                <li id="endListOpen" onclick='location.href="endListOpen.appro?cat=endListOpen"'>&nbsp;&nbsp;열람</li>
                 <li>
             </ul>
 

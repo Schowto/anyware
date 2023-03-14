@@ -24,68 +24,22 @@ public class ApprovalController {
 	@Autowired 
 	private HttpSession session;
 	
+	private int listCount = 0;
+	private ArrayList<Approval> list = new ArrayList<>();
+	private PageInfo pi = null;
+	
+	private int pageCount = 5;
+	private int approCount = 8;
+	
 	private int userNo = 1;
 	
-	@RequestMapping("list.appro")
-	public String selectList(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+	@RequestMapping("ingListAll.appro")
+	public String ingListAll(@RequestParam(value="cpage", defaultValue="1") int currentPage,
 							String cat, Model model, HttpSession session) {
 				
-		int listCount = 0;
-		ArrayList<Approval> list = new ArrayList<>();
-		PageInfo pi = null;
-		
-		int pageCount = 5;
-		int approCount = 8;
-		
-		switch(cat) {
-			case "ingListAll" : 
-				listCount = aService.ingCountAll(userNo);
-				pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
-				list = aService.ingListAll(userNo, pi);
-				break;
-			case "ingListContinue" :
-				listCount = aService.ingCountContinue(userNo);
-				pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
-				list = aService.ingListContinue(userNo, pi);
-				break;
-			case "ingListWait" :
-				listCount = aService.ingCountWait(userNo);
-				pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
-				list = aService.ingListWait(userNo, pi);
-				break;
-			case "ingListExpected" :
-				listCount = aService.ingCountExpected(userNo);
-				pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
-				list = aService.ingListExpected(userNo, pi);
-				break;
-			case "ingListRef" :
-				listCount = aService.ingCountRef(userNo);
-				ArrayList<Integer> ingArrayRef= aService.ingArrayRef(userNo);
-				pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
-				list = aService.ingListRef(ingArrayRef, pi);
-				break;
-			case "endListAll" :
-				listCount = aService.endCountAll(userNo);
-				pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
-				list = aService.endListAll(userNo, pi);
-				break;
-			case "endListSuggest" :
-				listCount = aService.endCountSuggest(userNo);
-				pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
-				list = aService.endListSuggest(userNo, pi);
-				break;
-			case "endListConfirm" :
-				listCount = aService.endCountConfirm(userNo);
-				pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
-				list = aService.endListConfirm(userNo, pi);
-				break;
-			case "endListOpen" :
-				listCount = aService.endCountOpen(userNo);
-				ArrayList<Integer> endArrayOpen= aService.endArrayOpen(userNo);
-				pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
-				list = aService.endListOpen(endArrayOpen, pi);
-				break;
-		}
+		listCount = aService.ingCountAll(userNo);
+		pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
+		list = aService.ingListAll(userNo, pi);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
@@ -93,6 +47,129 @@ public class ApprovalController {
 		
 		return "approval/approListView";
 	}
+	
+	@RequestMapping("ingListContinue.appro")
+	public String ingListContinue(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+			String cat, Model model, HttpSession session) {
+		
+		listCount = aService.ingCountContinue(userNo);
+		pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
+		list = aService.ingListContinue(userNo, pi);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("cat", cat);
+		
+		return "approval/approListView";
+	}
+	
+	@RequestMapping("ingListWait.appro")
+	public String ingListWait(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+			String cat, Model model, HttpSession session) {
+		
+		listCount = aService.ingCountWait(userNo);
+		pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
+		list = aService.ingListWait(userNo, pi);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("cat", cat);
+		
+		return "approval/approListView";
+	}
+	
+	@RequestMapping("ingListExpected.appro")
+	public String ingListExpected(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+			String cat, Model model, HttpSession session) {
+		
+		listCount = aService.ingCountExpected(userNo);
+		pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
+		list = aService.ingListExpected(userNo, pi);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("cat", cat);
+		
+		return "approval/approListView";
+	}
+	
+	@RequestMapping("ingListRef.appro")
+	public String ingListRef(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+			String cat, Model model, HttpSession session) {
+		
+		listCount = aService.ingCountRef(userNo);
+		ArrayList<Integer> ingArrayRef= aService.ingArrayRef(userNo);
+		pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
+		list = aService.ingListRef(ingArrayRef, pi);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("cat", cat);
+		
+		return "approval/approListView";
+	}
+	
+	@RequestMapping("endListAll.appro")
+	public String endListAll(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+			String cat, Model model, HttpSession session) {
+		
+		listCount = aService.endCountAll(userNo);
+		pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
+		list = aService.endListAll(userNo, pi);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("cat", cat);
+		
+		return "approval/approListView";
+	}
+	
+	@RequestMapping("endListSuggest.appro")
+	public String endListSuggest(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+			String cat, Model model, HttpSession session) {
+		
+		listCount = aService.endCountSuggest(userNo);
+		pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
+		list = aService.endListSuggest(userNo, pi);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("cat", cat);
+		
+		return "approval/approListView";
+	}
+	
+	@RequestMapping("endListConfirm.appro")
+	public String endListConfirm(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+			String cat, Model model, HttpSession session) {
+		
+		listCount = aService.endCountConfirm(userNo);
+		pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
+		list = aService.endListConfirm(userNo, pi);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("cat", cat);
+		
+		return "approval/approListView";
+	}
+	
+	@RequestMapping("endListOpen.appro")
+	public String endListOpen(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+			String cat, Model model, HttpSession session) {
+		
+		listCount = aService.endCountOpen(userNo);
+		ArrayList<Integer> endArrayOpen= aService.endArrayOpen(userNo);
+		pi = Pagination.getPageInfo(listCount, currentPage, pageCount, approCount);
+		list = aService.endListOpen(endArrayOpen, pi);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("cat", cat);
+		
+		return "approval/approListView";
+	}
+			
 	
 	@RequestMapping("enroll.appro")
 	public String enrollAppro() {
