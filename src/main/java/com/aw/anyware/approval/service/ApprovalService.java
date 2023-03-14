@@ -40,5 +40,7 @@ public interface ApprovalService {
 	public ArrayList<String> selectRef(int approNo);
 	public ArrayList<String> selectOpen(int approNo);
 	
+	public int confirmAppro(Approval appro);
+	
 
 }

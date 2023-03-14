@@ -110,4 +110,10 @@ public class ApprovalDao {
 		return (ArrayList) sqlSession.selectList("approvalMapper.selectOpen", approNo);
 	}
 	
+	public int confirmAppro(SqlSessionTemplate sqlSession, Approval appro) {
+		return sqlSession.update("approvalMapper.confirmAppro", appro);
+	}
+	
+	
+	
 }

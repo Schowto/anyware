@@ -102,16 +102,24 @@
 	
 	<select id="ingCountRef" resultType="_int">
 		select count(*)
-		  from tb_app_ref 
-		 where ref_lvl = '참조'
-		   and member_no = #{userNo}
+		  from tb_app_ref r
+    inner join tb_approval a on ( r.appro_no = a.appro_no )
+         where a.status = 'Y'
+	   and not inter_appro = '반려'  
+		   and final_appro = '대기'
+		   and ref_lvl = '참조'
+		   and r.member_no = #{userNo}
 	</select>
 	
 	<select id="ingArrayRef" resultType="int">
-		select appro_no
-		  from tb_app_ref 
-		 where ref_lvl = '참조'
-		   and member_no = #{userNo}
+		select r.appro_no
+		  from tb_app_ref r
+    inner join tb_approval a on ( r.appro_no = a.appro_no )
+         where r.status = 'Y'
+	   and not inter_appro = '반려'  
+		   and final_appro = '대기'
+		   and ref_lvl = '참조'
+		   and r.member_no = #{userNo}
 	</select>
 	
 	<select id="endCountAll" resultType="_int">
@@ -137,15 +145,35 @@
 	</select>
 	
 	<select id="endCountOpen" resultType="_int">
-		select count(*)
-		  from tb_app_ref 
-		 where member_no = #{userNo}
+        select count(*)
+		  from tb_app_ref r
+    inner join tb_approval a on (r.appro_no = a.appro_no)
+         where a.status = 'Y'
+	       and (
+       				inter_appro = '반려' 
+       		     or final_appro in ('결재', '반려')
+       		     or (
+       		     	     inter_appro = '결재'
+       		     	 and final_appro = '결재'	
+       		     	)
+       		    )
+		 and r.member_no = #{userNo}
 	</select>
 
 	<select id="endArrayOpen" resultType="int">
-		select appro_no
-		  from tb_app_ref 
-		 where member_no = #{userNo}
+        select a.appro_no
+		  from tb_app_ref r
+    inner join tb_approval a on (r.appro_no = a.appro_no)
+         where a.status = 'Y'
+	       and (
+       				inter_appro = '반려' 
+       		     or final_appro in ('결재', '반려')
+       		     or (
+       		     	     inter_appro = '결재'
+       		     	 and final_appro = '결재'	
+       		     	)
+       		    )
+		 and r.member_no = #{userNo}
 	</select>
 	
 	<!-- ========================================================================== -->
@@ -337,6 +365,13 @@
 		     where ref_lvl = '열람'
 		     and r.appro_no = #{approNo} 
  	</select>
+ 	
+ 	<update id="confirmAppro">
+ 		update tb_approval
+ 		   set inter_appro = #{interAppro},
+ 		       final_appro = #{finalAppro}
+ 		 where appro_no = #{approNo}   	
+ 	</update>
    
    
 </mapper>

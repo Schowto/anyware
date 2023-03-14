@@ -90,21 +90,16 @@
 		    </tbody>
 		</table>
 		</div>
-			
-	<script>
-		<!-- 결재 상세 페이지-->
-		$(function(){
-			$(".list-area>tbody>tr").click(function(){
-				if(${cat eq 'ingListContinue'}){
-					location.href ='update.appro?approNo='+$(this).children().eq(0).text();
-				} else {
-					location.href ='check.appro?approNo='+$(this).children().eq(0).text();
-				}
+		
+		<script>
+			<!-- 결재 상세 페이지-->
+			$(function(){
+				$(".list-area>tbody>tr").click(function(){
+						location.href ='detail.appro?approNo='+$(this).children().eq(0).text();
+				})
 			})
-		})
-	</script>	
-		
-		
+		</script>
+			
 		<ul class="page pagination">
                     
                     <c:choose>

@@ -262,7 +262,7 @@ a {
                         <span class="nav_name">메신저</span>
                     </a>
                     
-                    <a href="#" class="nav__link">
+                    <a href="ingListAll.appro?cat=ingListAll" class="nav__link">
                         <ion-icon name="document-text-outline" class="nav__icon"></ion-icon>
                         <span class="nav_name">전자결재</span>
                     </a>

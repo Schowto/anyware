@@ -134,6 +134,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return aDao.selectOpen(sqlSession, approNo);
 	}
 
+	@Override
+	public int confirmAppro(Approval appro) {
+		return aDao.confirmAppro(sqlSession, appro);
+	}
+
 	
 
 

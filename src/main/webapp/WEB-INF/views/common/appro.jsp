@@ -65,6 +65,14 @@
                 <li id="endListOpen" onclick='location.href="endListOpen.appro?cat=endListOpen"'>&nbsp;&nbsp;열람</li>
                 <li>
             </ul>
+            
+            <c:if test="${loginUser.deptName eq '총무부'}">
+	             <br><br>
+	             <ul>
+	                <span style="font-weight: 600;">서식 관리</span><br><br>
+	                <li id=endListAll onclick='location.href="endListAll.appro?cat=endListAll"'>&nbsp;&nbsp;서식 등록</li>
+	            </ul>
+            </c:if>
 
         </div>
  

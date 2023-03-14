@@ -139,16 +139,56 @@
 			<textarea id="summernote" class="editor" name="approContent"></textarea>
 			<br><br><br>
 		</form>
+
+		<form class="check" action="confirm.appro">
+			<input type="hidden" name="approNo" value="${appro.approNo}">
+			<input type="hidden" id="interAppro" name="interAppro" value="${appro.interAppro}">
+			<input type="hidden" id="finalAppro" name="finalAppro" value="${appro.finalAppro}">
+		</form>
+
 	</div>
 
 	<script>
 		$(document).ready(function() {
 			
+			
+			if(${loginUser.name == appro.interName}){
+				 $("#sign").children().eq(1).html(
+			    		   '<button class="ap btn btn-primary">승인</button>' +
+			    		   '<button class="de btn btn-danger">반려</button>'
+			    		   );
+				
+				$(".ap").click(function () {
+					$('#interAppro').val('결재');
+					$('.check').submit();
+	   			 })
+	   			 
+				$(".de").click(function () {
+					$('#interAppro').val('반려');
+					$('.check').submit();
+	   			 })
+
+			} else if(${loginUser.name == appro.finalName}) {
+				
+				 $("#sign").children().eq(2).html(
+			    		   '<button class="ap btn btn-primary">승인</button>' +
+			    		   '<button class="de btn btn-danger">반려</button>'
+			    		   );
+				
+				$(".ap").click(function () {
+					$("#finalAppro").val('결재');
+					$('.check').submit();
+	   			 })
+	   			 
+				$(".de").click(function () {
+					$("#finalAppro").val('반려');
+					$('.check').submit();
+	   			 })
+		    };
+			
 			if('${appro.interAppro}' == '반려'){
-				$('#sign img').eq(1).attr("src","resources/images/appro/deny.png");
 			}else if('${appro.interAppro}' == '결재'){ 
 				$('#sign img').eq(1).attr("src","resources/images/appro/appro.png");
-
 			}
 			
 			if('${appro.finalAppro}' == '반려'){
@@ -184,6 +224,6 @@
 
 		});
 	</script>
-	
+	      
 </body>
 </html>

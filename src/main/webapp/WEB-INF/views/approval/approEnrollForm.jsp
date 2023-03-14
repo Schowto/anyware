@@ -82,15 +82,21 @@
 		<table class="table-bordered basic">
 			<tr>
 				<th>문서종류</th>
-				<td>test</td>
+				<td>
+					teest
+					<input type="hidden" name="tplNo" value="">
+				</td>
 				<th>작성일</th>
-				<td>test</td>
+				<td><input type="date" name="createDate" style="border:none" value=""></td>
 			</tr>
 			<tr>
 				<th>작성자</th>
-				<td>test</td>
+				<td>
+					${loginUser.name}
+					<input type="hidden" name="memberNo" value="${loginUser.memberNo}">
+				</td>
 				<th>부서</th>
-				<td>test</td>
+				<td>${loginUser.deptName}</td>
 			</tr>
 		</table>
 		<br>
@@ -203,7 +209,7 @@
 			                        	<td>${m.name }</td>
 			                        	<td>${m.jobName }</td>
 			                        	<td>${m.deptName }</td>
-			                        	<td><input type="checkbox" name="approNo" value="${m.memberNo}"></td>
+			                        	<td><input type="checkbox" name="checkNo" value="${m.memberNo}"></td>
 			                        </tr>
 		                        </c:forEach>
 		                   </c:otherwise>     
