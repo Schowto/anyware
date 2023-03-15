@@ -384,8 +384,13 @@
 	<select id="listTpl" resultMap="tplResult">
 		select tpl_No
 			 , tpl_Title
-			 , tpl_content
 		  from tb_app_tpl 	 
+	</select>
+	
+	<select id="selectTpl" resultType="String">
+		select tpl_content
+		  from tb_app_tpl 	 
+		 where tpl_title = #{tplTitle} 
 	</select>
    
    

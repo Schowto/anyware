@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aw.anyware.approval.service.ApprovalService;
 import com.aw.anyware.approval.vo.ApproTpl;
@@ -231,4 +232,16 @@ public class ApprovalController {
 		}
 		
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "selectTpl.appro", produces="text/html; charset=UTF-8")
+	public String selectTpl(String tplTitle) {
+		
+		String result = aService.selectTpl(tplTitle);
+		
+		return result;
+	}
+	
+	
+	
 }

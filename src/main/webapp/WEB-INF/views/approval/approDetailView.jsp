@@ -15,7 +15,10 @@
 	}
 
 	.basic th{
-		width: 100px;
+		width: 150px;
+	}
+	.basic td{
+		width: 250px;
 	}
 
 	.order{

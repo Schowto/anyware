@@ -145,6 +145,10 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return aDao.listTpl(sqlSession);
 	}
 
+	@Override
+	public String selectTpl(String tplTitle) {
+		return aDao.selectTpl(sqlSession, tplTitle);
+	}
 	
 
 

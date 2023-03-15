@@ -113,8 +113,14 @@ public class ApprovalDao {
 		return sqlSession.update("approvalMapper.confirmAppro", appro);
 	}
 	
+	//============================================================================================
+	
 	public ArrayList<ApproTpl> listTpl(SqlSessionTemplate sqlSession){
 		return (ArrayList)sqlSession.selectList("approvalMapper.listTpl");
+	}
+	
+	public String selectTpl(SqlSessionTemplate sqlSession, String tplTitle) {
+		return sqlSession.selectOne("approvalMapper.selectTpl", tplTitle); 
 	}
 	
 	

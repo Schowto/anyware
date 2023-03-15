@@ -16,7 +16,10 @@
 	}
 
 	.basic th{
-		width: 100px;
+		width: 150px;
+	}
+	.basic td{
+		width: 250px;
 	}
 
 	.order{
@@ -73,12 +76,13 @@
 	
 	<div class="content">
 		<div class="bText">&nbsp;기본 설정</div>
-	
+			
 			<table class="table-bordered basic">
 				<tr>
 					<th>문서종류</th>
 					<td>
 						<select id="tplSelect">
+							<option>선택</option>
 							<c:forEach var="i" begin="0" end="${fn:length(tplList) - 1}" step="1">
 								<option value="${tplList[i].tplTitle}"> 
 									${tplList[i].tplTitle}
@@ -86,8 +90,8 @@
 							</c:forEach>
 						</select>
 					</td>
-					<th>작성일</th>
-					<td><input type="date" id="createDate" name="createDate" style="border:none" value=""></td>
+					<th>직급</th>
+					<td>${loginUser.jobName}</td>
 				</tr>
 				<tr>
 					<th>작성자</th>
@@ -151,7 +155,7 @@
 	
 	      <!-- Modal Header -->
 	      <div class="modal-header">
-	        <h4 class="modal-title">Modal Heading</h4>
+	        <h3 class="modal-title">결재선 선택</h3>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
 	
@@ -192,20 +196,22 @@
 			<br>
 			
 			<div class="searchBtn">
-				 <select name="" id="">
-					  <option value="">test</option>
-					  <option value="">test1</option>
+				 <select name="condition" id="">
+					  <option value="NAME">이름</option>
+					  <option value="DEPT_NAME">부서</option>
+					  <option value="JOB_NAME">직급</option>
 				 </select>
-				 <input type="search" name="">
+				 <input type="search" name="search">
 				 <button type="submit">검색</button>
 			</div>
 			
 	      </div>
-	
-	      <!-- Modal footer -->
-	      <div class="modal-footer">
+	      
+		  <!-- Modal footer -->
+	      <div class="modal-footer btn-center">
+			 <button class="btn btn-primary">등록</button>
 	      </div>
-	
+	      
 	    </div>
 	  </div>
 	</div>
@@ -280,10 +286,27 @@
 		$(document).ready(function() {
 			
 			$("#tplSelect").change(function(){
-			    const i = $(this).val();
-			    console.log("${tplList[2].tplTitle}")
+				
+				if( $(this).val() != '선택'){
+					
+				    const i = $(this).val();
+				    
+				    $.ajax({
+						url:"selectTpl.appro",
+						data:{tplTitle:i},
+						success:function(tplContent){
+							
+							$('#summernote').summernote('reset');
+							$('#summernote').summernote('pasteHTML', tplContent);
+						},error:function(){
+							
+						}
+					})
+					
+				}
+				
 			});
-
+			
 			$('#summernote').summernote({
 				lang: 'ko-KR',
 				height:600,
@@ -303,10 +326,7 @@
 				fontNames: ['Courier New','맑은 고딕','궁서','굴림']
 				
 			});
-			  
-			  var HTMLstring = '<div><p>Hello, world</p><p>Summernote can insert HTML string</p></div>';
-			  $('#summernote').summernote('pasteHTML', HTMLstring);
-
+			
 		});
 	</script>
 	

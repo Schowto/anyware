@@ -45,5 +45,7 @@ public interface ApprovalService {
 	
 	public ArrayList<ApproTpl> listTpl();
 	
+	public String selectTpl(String tplTitle);
+	
 
 }
