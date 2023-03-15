@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.aw.anyware.approval.dao.ApprovalDao;
+import com.aw.anyware.approval.vo.ApproTpl;
 import com.aw.anyware.approval.vo.Approval;
 import com.aw.anyware.common.model.vo.PageInfo;
 
@@ -137,6 +138,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Override
 	public int confirmAppro(Approval appro) {
 		return aDao.confirmAppro(sqlSession, appro);
+	}
+
+	@Override
+	public ArrayList<ApproTpl> listTpl() {
+		return aDao.listTpl(sqlSession);
 	}
 
 	

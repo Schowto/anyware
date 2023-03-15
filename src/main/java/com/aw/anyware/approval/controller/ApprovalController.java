@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.aw.anyware.approval.service.ApprovalService;
+import com.aw.anyware.approval.vo.ApproTpl;
 import com.aw.anyware.approval.vo.Approval;
 import com.aw.anyware.common.model.vo.PageInfo;
 import com.aw.anyware.common.template.Pagination;
@@ -180,7 +181,11 @@ public class ApprovalController {
 			
 	
 	@RequestMapping("enroll.appro")
-	public String enrollAppro() {
+	public String enrollAppro(Model model) {
+		
+		ArrayList<ApproTpl> tplList = aService.listTpl();
+		
+		model.addAttribute("tplList", tplList);
 		return "approval/approEnrollForm";
 	}
 	

@@ -3,6 +3,7 @@ package com.aw.anyware.approval.service;
 import java.util.ArrayList;
 
 import com.aw.anyware.approval.vo.Approval;
+import com.aw.anyware.approval.vo.ApproTpl;
 import com.aw.anyware.common.model.vo.PageInfo;
 
 public interface ApprovalService {
@@ -41,6 +42,8 @@ public interface ApprovalService {
 	public ArrayList<String> selectOpen(int approNo);
 	
 	public int confirmAppro(Approval appro);
+	
+	public ArrayList<ApproTpl> listTpl();
 	
 
 }

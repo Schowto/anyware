@@ -228,7 +228,13 @@ a {
     </style>
 </head>
 <body id="body-pd">
-	
+    
+    <c:if test="${not empty alertMsg }">
+		<script>
+			alert('${alertMsg}');
+		</script>
+		<c:remove var="alertMsg" scope="session" />
+	</c:if>
 
     <div id="side">
         <div class="l-navbar" id="navbar">

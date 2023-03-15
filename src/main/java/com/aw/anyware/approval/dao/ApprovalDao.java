@@ -1,12 +1,11 @@
 package com.aw.anyware.approval.dao;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.aw.anyware.approval.vo.ApproTpl;
 import com.aw.anyware.approval.vo.Approval;
 import com.aw.anyware.common.model.vo.PageInfo;
 
@@ -114,6 +113,9 @@ public class ApprovalDao {
 		return sqlSession.update("approvalMapper.confirmAppro", appro);
 	}
 	
+	public ArrayList<ApproTpl> listTpl(SqlSessionTemplate sqlSession){
+		return (ArrayList)sqlSession.selectList("approvalMapper.listTpl");
+	}
 	
 	
 }
