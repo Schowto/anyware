@@ -1,6 +1,8 @@
 package com.aw.anyware.approval.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,6 +19,7 @@ import com.aw.anyware.approval.vo.Approval;
 import com.aw.anyware.common.model.vo.PageInfo;
 import com.aw.anyware.common.template.Pagination;
 import com.aw.anyware.member.model.vo.Member;
+import com.google.gson.Gson;
 
 @Controller
 public class ApprovalController {
@@ -234,14 +237,52 @@ public class ApprovalController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "selectTpl.appro", produces="text/html; charset=UTF-8")
+	@RequestMapping(value = "selectTpl.appro", produces="application/json; charset=UTF-8")
 	public String selectTpl(String tplTitle) {
 		
-		String result = aService.selectTpl(tplTitle);
+		ApproTpl result = aService.selectTpl(tplTitle);
 		
-		return result;
+		return new Gson().toJson(result);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="searchMem.appro", produces="application/json; charset=UTF-8")
+	public String searchMem(String condition, String search) {
+		
+		ArrayList<Member> list = aService.memList(condition, search);
+		
+		return new Gson().toJson(list);
+	}
 	
+	@RequestMapping("insert.appro")
+	public String insertAppro(Approval appro, String[] refNo, String[] openNo, HttpSession session, Model model) {
+		
+		int result = aService.insertAppro(appro, refNo, openNo);
 	
+		if(result > 0) { // 성공 ==> session에 loginUser지움, alert문구 담기 -> 메인 url 재요청
+			session.setAttribute("alertMsg", "등록 성공");
+			return "redirect:ingListContinue.appro?cat=ingListContinue";
+		} else {
+			model.addAttribute("errorMsg", "등록 실패");
+			return "common/errorPage";
+		}
+		
+	}
+	
+	@RequestMapping("update.appro")
+	public String updateAppro(int approNo, Model model) {
+		
+		ArrayList<ApproTpl> tplList = aService.listTpl();
+		Approval appro = aService.selectAppro(approNo);
+		String[] ref = aService.selectRef(approNo).toArray(new String[aService.selectRef(approNo).size()]);
+		String[] open = aService.selectOpen(approNo).toArray(new String[aService.selectOpen(approNo).size()]);
+		
+		model.addAttribute("appro", appro);
+		model.addAttribute("ref", ref);
+		model.addAttribute("open", open);
+		
+		model.addAttribute("tplList", tplList);
+		
+		return "approval/approUpdateForm";
+	}
 }

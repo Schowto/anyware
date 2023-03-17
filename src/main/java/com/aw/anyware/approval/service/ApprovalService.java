@@ -2,9 +2,10 @@ package com.aw.anyware.approval.service;
 
 import java.util.ArrayList;
 
-import com.aw.anyware.approval.vo.Approval;
 import com.aw.anyware.approval.vo.ApproTpl;
+import com.aw.anyware.approval.vo.Approval;
 import com.aw.anyware.common.model.vo.PageInfo;
+import com.aw.anyware.member.model.vo.Member;
 
 public interface ApprovalService {
 	
@@ -45,7 +46,11 @@ public interface ApprovalService {
 	
 	public ArrayList<ApproTpl> listTpl();
 	
-	public String selectTpl(String tplTitle);
+	public ApproTpl selectTpl(String tplTitle);
+	
+	public ArrayList<Member> memList(String conditon, String search);
+	
+	public int insertAppro(Approval appro, String[] refNo, String[] openNo);
 	
 
 }

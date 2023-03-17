@@ -27,15 +27,19 @@
 		<result column="final_appro" property="finalAppro"/>
 		
 		<result column="create_date" property="createDate"/>
-		<!-- 	
-		<collection property="refNo" ofType="Integer">
-			<result column="refMem_No"/>
-		</collection>
-		
-		<collection property="openNo" ofType="Integer">
-			<result column="openMem_no"/>
-		</collection>
-		 -->
+	</resultMap>
+	
+	<resultMap id="memberResult" type="Member">
+		<id column="member_no" property="memberNo"/>
+		<result column="name" property="name"/>
+		<result column="job_name" property="jobName"/>
+		<result column="dept_name" property="deptName"/>
+	</resultMap>
+	
+	<resultMap id="tplResult" type="ApproTpl">
+		<id column="tpl_no" property="tplNo"/>
+		<result column="tpl_title" property="tplTitle"/>
+		<result column="tpl_content" property="tplContent"/>
 	</resultMap>
 	
 	<!-- ==================================================================== -->
@@ -374,12 +378,6 @@
  	</update>
    
 	<!-- ======================================================================================== -->
-	
-	<resultMap id="tplResult" type="ApproTpl">
-		<id column="tpl_No" property="tplNo"/>
-		<result column="tpl_Title" property="tplTitle"/>
-		<result column="tpl_Content" property="tplContent"/>
-	</resultMap>
    
 	<select id="listTpl" resultMap="tplResult">
 		select tpl_No
@@ -387,11 +385,102 @@
 		  from tb_app_tpl 	 
 	</select>
 	
-	<select id="selectTpl" resultType="String">
+	<select id="selectTpl" resultMap="tplResult">
 		select tpl_content
+			 , tpl_no
 		  from tb_app_tpl 	 
 		 where tpl_title = #{tplTitle} 
 	</select>
+	
+	<select id="memList" resultMap="memberResult">
+		select member_no
+			 , job_name
+			 , name
+			 , dept_name
+		  from tb_member
+		 where status= 'Y'
+			<choose>
+				<when test="condition == 'dept_name'">      
+		        	and dept_name
+		        </when>
+		        <when test="condition == 'job_name'"> 
+		         	and job_name
+	         	</when>
+		        <otherwise> 
+		         	and name
+		        </otherwise>
+	        </choose>	    
+      	  like '%' || #{search} || '%'
+		  order
+   			 by decode (job_name, '사장', 1, '부사장', 2, '이사', 3, '부장', 4, '과장', 5, '대리', 6, 7)
+	</select>
+   
+   	<insert id="insertAppro">
+   		insert
+   		  into tb_approval
+   		  	   (
+   		  	   	  appro_no
+   		  	   	, member_no
+   		  	   	, tpl_no
+   		  	   	, appro_title
+   		  	   	, appro_content
+   		  	   	, inter_no
+   		  	   	, final_no
+   		  	   	, create_date  
+   		  	   	, inter_appro
+   		  	   	, final_appro
+		  	   )
+		values (
+				  SEQ_APPRONO.NEXTVAL
+				, #{writerNo}
+				, #{tplNo}
+				, #{approTitle}
+				, #{approContent}
+				, #{interNo}
+				, #{finalNo}
+				, to_char(sysdate,'YYYY-MM-DD')
+				, '대기'
+				, '대기'
+				)  	   
+   	
+   	</insert>
+   
+   	<insert id="insertRef">
+		insert 
+		  into tb_app_ref
+		  		(
+		  			ref_no
+		  		  , appro_no		
+		  		  , member_no
+		  		  , ref_lvl
+		  		)   	
+	  	values
+	  			(
+	  				seq_refno.nextval
+	  			  , seq_approNo.currval
+	  			  , #{ref}
+	  			  , '참조'	
+	  			)
+   	</insert>
+   
+   	<insert id="insertOpen">
+   		insert 
+		  into tb_app_ref
+		  		(
+		  			ref_no
+		  		  , appro_no		
+		  		  , member_no
+		  		  , ref_lvl
+		  		)   	
+	  	values
+	  			(
+	  				seq_refno.nextval
+	  			  , seq_approNo.currval
+	  			  , #{open}
+	  			  , '열람'	
+	  			)
+   	
+   	</insert>
    
    
 </mapper>

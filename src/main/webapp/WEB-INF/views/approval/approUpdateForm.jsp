@@ -84,9 +84,18 @@
 						<select id="tplSelect">
 							<option>선택</option>
 							<c:forEach var="i" begin="0" end="${fn:length(tplList) - 1}" step="1">
-								<option value="${tplList[i].tplTitle}"> 
-									${tplList[i].tplTitle}
-								</option>
+								<c:choose>
+									<c:when test="${tplList[i].tplTitle eq appro.tplTitle }">
+										<option value="${tplList[i].tplTitle}" selected> 
+											${tplList[i].tplTitle}
+										</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${tplList[i].tplTitle}"> 
+											${tplList[i].tplTitle}
+										</option>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 						</select>
 					</td>
@@ -107,49 +116,59 @@
 			<table class="table-bordered order" role="button" data-toggle="modal" data-target="#myModal">
 				<tr id='jobName'>
 					<th rowspan="3">결재</th>
-					<td>${ loginUser.jobName}</td>
-					<td></td>
-					<td></td>
+					<td>${appro.writerJob}</td>
+					<td>${appro.interJob}</td>
+					<td>${appro.finalJob}</td>
 				</tr>
-				<tr style="height: 120px;">
+				<tr style="height: 120px;" id="sign">
 					<td><img src="resources/images/appro/appro.png"></td>
-					<td></td>
-					<td></td>
+					<td><img src="resources/images/appro/wait.png"></td>
+					<td><img src="resources/images/appro/wait.png"></td>
 				</tr>
 				<tr id='name'>
-					<td>${ loginUser.name }</td>
-					<td></td>
-					<td></td>
+					<td>${appro.writerName}</td>
+					<td>${appro.interName}</td>
+					<td>${appro.finalName}</td>
 				</tr>
 			</table>
 			<br>
 			<table class="table-bordered ref" role="button" data-toggle="modal" data-target="#myModal2">
 				<tr>
 					<th>참조</th>
-					<td id="ref"></td>
+					<td id="ref">
+					&nbsp;
+					<c:forEach var='r' items='${ref}'>
+					&nbsp;${r}  
+					</c:forEach>
+					</td>
 				</tr>
 			</table>
 			<br>
 			<table class="table-bordered ref" role="button" data-toggle="modal" data-target="#myModal3">
 				<tr>
 					<th>열람</th>
-					<td id="open"></td>
+					<td id="open">
+					&nbsp;
+					<c:forEach var='o' items='${open}'>
+					&nbsp;${o}  
+					</c:forEach>
+					</td>
 				</tr>
 			</table>
 			<br>
 			<form action="insert.appro" method="post">
 				<div class="bText">&nbsp;본문</div>
-				<input style="width: 600px;" type="text" name="approTitle" placeholder="기안 제목을 입력해주세요.">
+				<input style="width: 600px;" type="text" name="approTitle" value="${appro.approTitle}">
 				<br><br>
 				<textarea id="summernote" class="editor" name="approContent"></textarea>
 				<br>
 				
 				<input type="hidden" name="writerNo" value="${loginUser.memberNo}">
-				<input type="hidden" name="interNo" value="">
-				<input type="hidden" name="finalNo" value="">
-				<input type="hidden" name="tplNo" value="">
-				<input type="hidden" name="refNo" value="">
-				<input type="hidden" name="openNo" value="">
+				<input type="hidden" name="interNo" value="${appro.interNo }">
+				<input type="hidden" name="finalNo" value="${appro.finalNo }">
+				<input type="hidden" name="tplNo" value="${appro.tplNo }">
+				<input type="hidden" name="refNo" value="${ref }">
+				<input type="hidden" name="openNo" value="${open }">
 				
 				<div class="btn-center">
 					<button type="submit" class="btn btn-primary">등록</button>
@@ -610,6 +629,21 @@
 				fontNames: ['Courier New','맑은 고딕','궁서','굴림']
 				
 			});
+			
+			$('#summernote').summernote('pasteHTML', "${appro.approContent}");
+			
+			if('${appro.interAppro}' == '반려'){
+				$('#sign img').eq(1).attr("src","resources/images/appro/deny.png");
+			}else if('${appro.interAppro}' == '결재'){ 
+				$('#sign img').eq(1).attr("src","resources/images/appro/appro.png");
+
+			}
+			
+			if('${appro.finalAppro}' == '반려'){
+				$('#sign img').eq(2).attr("src","resources/images/appro/deny.png");
+			}else if('${appro.finalAppro}' == '결재'){ 
+				$('#sign img').eq(2).attr("src","resources/images/appro/appro.png");
+			}
 			
 		});
 	</script>

@@ -40,8 +40,5 @@ public class Approval {
 	
 	private String createDate;
 	
-	private ArrayList<Integer> refNo;
-	private ArrayList<Integer> openNo;
-	
 	
 }

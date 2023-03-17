@@ -1,21 +1,30 @@
 package com.aw.anyware.approval.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aw.anyware.approval.dao.ApprovalDao;
 import com.aw.anyware.approval.vo.ApproTpl;
 import com.aw.anyware.approval.vo.Approval;
 import com.aw.anyware.common.model.vo.PageInfo;
+import com.aw.anyware.member.model.vo.Member;
 
 @Service
 public class ApprovalServiceImpl implements ApprovalService {
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	
+	@Autowired
+	private SqlSessionFactory factory;
 	
 	@Autowired
 	private ApprovalDao aDao;
@@ -146,10 +155,42 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	@Override
-	public String selectTpl(String tplTitle) {
+	public ApproTpl selectTpl(String tplTitle) {
 		return aDao.selectTpl(sqlSession, tplTitle);
 	}
-	
+
+	@Override
+	public ArrayList<Member> memList(String condition, String search) {
+		
+		HashMap<String, String> searchBox = new HashMap<>();
+		
+		searchBox.put("condition", condition);
+		searchBox.put("search", search);
+		
+		return aDao.memList(sqlSession, searchBox);
+	}
+
+	@Override
+	public int insertAppro(Approval appro, String refNo[], String[] openNo) {
+		
+		SqlSession notAutoSession = factory.openSession(false);
+		
+		int result1 = aDao.insertAppro(notAutoSession, appro);
+		int result2 = aDao.insertRef(notAutoSession, refNo);
+		int result3 = aDao.insertOpen(notAutoSession, openNo);
+		
+		int result = result1 * result2 * result3;
+		
+		if(result > 0) {
+			notAutoSession.commit();
+		} else {
+			notAutoSession.rollback();
+		}
+		
+		notAutoSession.close();
+		
+		return result;
+	}
 
 
 

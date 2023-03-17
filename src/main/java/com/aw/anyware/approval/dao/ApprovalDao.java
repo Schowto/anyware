@@ -1,13 +1,16 @@
 package com.aw.anyware.approval.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.aw.anyware.approval.vo.ApproTpl;
 import com.aw.anyware.approval.vo.Approval;
 import com.aw.anyware.common.model.vo.PageInfo;
+import com.aw.anyware.member.model.vo.Member;
 
 @Repository
 public class ApprovalDao {
@@ -119,8 +122,36 @@ public class ApprovalDao {
 		return (ArrayList)sqlSession.selectList("approvalMapper.listTpl");
 	}
 	
-	public String selectTpl(SqlSessionTemplate sqlSession, String tplTitle) {
+	public ApproTpl selectTpl(SqlSessionTemplate sqlSession, String tplTitle) {
 		return sqlSession.selectOne("approvalMapper.selectTpl", tplTitle); 
+	}
+	
+	public ArrayList<Member> memList(SqlSessionTemplate sqlSession, HashMap<String, String> searchBox){
+		return (ArrayList)sqlSession.selectList("approvalMapper.memList", searchBox);
+	}
+	
+	public int insertAppro(SqlSession notAutoSession, Approval appro) {
+		return notAutoSession.insert("approvalMapper.insertAppro", appro);
+	}
+	
+	public int insertRef(SqlSession notAutoSession, String[] refNo) {
+		int result = 1;
+		
+		for ( String ref : refNo) {
+			result *= notAutoSession.insert("approvalMapper.insertRef", ref);
+		}
+		
+		return result;
+	}
+	
+	public int insertOpen(SqlSession notAutoSession, String[] openNo) {
+		int result = 1;
+		
+		for ( String open : openNo) {
+			result *= notAutoSession.insert("approvalMapper.insertOpen", open);
+		}
+		
+		return result;
 	}
 	
 	
