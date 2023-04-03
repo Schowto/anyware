@@ -1,7 +1,9 @@
 package com.aw.anyware.schedule.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.aw.anyware.common.model.vo.PageInfo;
 import com.aw.anyware.schedule.model.vo.Calendar;
 import com.aw.anyware.schedule.model.vo.Schedule;
 
@@ -40,11 +42,11 @@ public interface ScheduleService {
 	// 스케줄 삭제
 	int deleteSchedule(Schedule s);
 	
-	// 키워드 검색
-	ArrayList<Schedule> searchKeyword(Schedule s);
+	// 키워드 검색 페이징 - 게시글 수
+	int selectListCount(HashMap<String, Object> map);
 	
-	// 키워드 검색 페이징
-//	int selectListCount();
+	// 키워드 검색
+	ArrayList<Schedule> searchKeyword(HashMap<String, Object> map, PageInfo pi);
 	
 	
 	

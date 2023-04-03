@@ -1,11 +1,13 @@
 package com.aw.anyware.schedule.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aw.anyware.common.model.vo.PageInfo;
 import com.aw.anyware.schedule.model.dao.ScheduleDao;
 import com.aw.anyware.schedule.model.vo.Calendar;
 import com.aw.anyware.schedule.model.vo.Schedule;
@@ -111,17 +113,17 @@ public class ScheduleServiceImpl implements ScheduleService {
 	 * 키워드 검색
 	 */
 	@Override
-	public ArrayList<Schedule> searchKeyword(Schedule s) {
-		return scDao.searchKeyword(sqlSession, s);
+	public ArrayList<Schedule> searchKeyword(HashMap<String, Object> map, PageInfo pi) {
+		return scDao.searchKeyword(sqlSession, map, pi);
 	}
 
 	/**
 	 * 키워드 검색 페이징
 	 */
-//	@Override
-//	public int selectListCount() {
-//		return scDao.selectListCount(sqlSession);
-//	}
+	@Override
+	public int selectListCount(HashMap<String, Object> map) {
+		return scDao.selectListCount(sqlSession, map);
+	}
 
 
 

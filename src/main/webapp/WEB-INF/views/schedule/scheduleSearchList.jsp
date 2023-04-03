@@ -273,7 +273,7 @@
 
     <div class="main-right">
         <div class="main-right-1">
-            <form action="searchKeyword.sc" method="get" class="d-flex" role="search" >
+            <form action="scheduleSearchList.sc" method="get" class="d-flex" role="search" >
                 <input class="form-control form-control-sm me-2" type="search"
                        placeholder="검색어를 입력하세요" aria-label="Search" name="keyword" style="width: 250px;">
                 <button class="btn" type="submit"
@@ -320,14 +320,29 @@
                 <!-- 페이징 -->
                 <div class="ppaging">
                 <ul class="pagination pagination-sm">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                  </ul>
+
+                    <c:choose>
+                        <c:when test="${ pi.currentPage eq 1 }">
+                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link" href="scheduleSearchList.sc?cpage=${ pi.currentPage-1}">Previous</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                    
+                    <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+                        <li class="page-item"><a class="page-link" href="scheduleSearchList.sc?cpage=${ p }">${ p }</a></li>
+                    </c:forEach>
+
+                    <c:choose>
+                        <c:when test="${ pi.currentPage eq pi.maxPage }">
+                            <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link" href="scheduleSearchList.sc?cpage=${ pi.currentPage+1}">Next</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
                 </div>
 
             </div>

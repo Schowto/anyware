@@ -337,7 +337,7 @@
     
         <div class="main-right">
             <div class="main-right-1">
-                <form action="searchKeyword.sc" method="get" class="d-flex" role="search" >
+                <form action="scheduleSearchList.sc" method="get" class="d-flex" role="search" >
                     <input class="form-control form-control-sm me-2" type="search"
                            placeholder="검색어를 입력하세요" aria-label="Search" name="keyword" style="width: 250px;">
                     <button class="btn" type="submit"
@@ -426,7 +426,6 @@
                                             // console.log(cDate);
                                             // console.log(changeDate);
                                          
-
                                             events.push({
                                                 
                                                 title : data.scTitle,
@@ -434,7 +433,7 @@
                                                 end: endDate2,
                                                 color: data.scColor,
                                                 scheduleNo : data.scheduleNo,
-                                                calendarNo : data.calendarNo
+                                                
                                                 })
                                             
                                                 
@@ -1373,9 +1372,6 @@
     </div>
 
 
-
-
-
     <!-------------------------------------- 스크립트 ----------------------------------------->
     <script>
     
@@ -1535,9 +1531,6 @@
                         $("#calendarNo").html(html2);
                         $("#dragCalendarNo").html(html2);
                         $("#cccc").html(html2);
-
-                        
-
 
 
                         // if($("input:checkbox[id='cScColor']").prop("checked", true)) {
@@ -2139,11 +2132,10 @@
 
         // 체크된 캘린더 조회하기 위한
 
-        //selectScheduleList();
+        // selectScheduleList();
 
-        
 
-        // 체크되어있는 캘린더 번호
+        // //체크되어있는 캘린더 번호
         // check=[];
         // $(".cName").each(function(){
         //     if($(this).is(":checked") == true){
@@ -2153,7 +2145,7 @@
         // console.log(check);
 
 
-        // 체크 이벤트 발생시 캘린더 번호 arr로
+        // //체크 이벤트 발생시 캘린더 번호 arr로
         // $(document).on("click", ".checkSchGroup", function(){
         //     check=[];
         //     $(".checkSchGroup").each(function(){
@@ -2217,6 +2209,7 @@
         //         }   
         //     })
         // }
+
         
 
 

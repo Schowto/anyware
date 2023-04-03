@@ -1,10 +1,13 @@
 package com.aw.anyware.schedule.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.aw.anyware.common.model.vo.PageInfo;
 import com.aw.anyware.schedule.model.vo.Calendar;
 import com.aw.anyware.schedule.model.vo.Schedule;
 
@@ -116,13 +119,24 @@ public class ScheduleDao {
 	 * @param keyword
 	 * @return
 	 */
-	public ArrayList<Schedule> searchKeyword(SqlSessionTemplate sqlSession, Schedule s) {
-		return (ArrayList)sqlSession.selectList("scheduleMapper.searchKeyword", s);
+	public ArrayList<Schedule> searchKeyword(SqlSessionTemplate sqlSession, HashMap<String, Object> map, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage()-1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		return (ArrayList)sqlSession.selectList("scheduleMapper.searchKeyword", map, rowBounds);
 	}
 	
-//	public int selectListCount(SqlSessionTemplate sqlSession) {
-//		
-//	}
+	/** 키워드 검색 페이징
+	 * @param sqlSession
+	 * @return
+	 */
+	public int selectListCount(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+//		int cc = sqlSession.selectOne("scheduleMapper.selectListCount");
+//		System.out.println(cc);
+		return sqlSession.selectOne("scheduleMapper.selectListCount", map);
+	}
 	
 	
 

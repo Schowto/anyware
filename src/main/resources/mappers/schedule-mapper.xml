@@ -223,6 +223,19 @@
 		 where s.status = 'Y'
 		   and sc_title like '%' || #{keyword} || '%'
 		    or sc_content like '%' || #{keyword} || '%'
+		 order
+		    by start_date desc
+	</select>
+	
+	<!-- 키워드 검색 페이징 -->
+	<select id="selectListCount" resultType="_int">
+		select
+		       count(*)
+		  from tb_m_schedule s
+		  join tb_category c using(calendar_no)
+		 where s.status = 'Y'
+		   and sc_title like '%' || #{keyword} || '%'
+		    or sc_content like '%' || #{keyword} || '%'
 	</select>
 	
 	

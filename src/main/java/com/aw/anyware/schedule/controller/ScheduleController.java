@@ -1,6 +1,7 @@
 package com.aw.anyware.schedule.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aw.anyware.common.model.vo.PageInfo;
+import com.aw.anyware.common.template.Pagination;
 import com.aw.anyware.member.model.vo.Member;
 import com.aw.anyware.schedule.model.service.ScheduleService;
 import com.aw.anyware.schedule.model.vo.Calendar;
@@ -32,9 +35,23 @@ public class ScheduleController {
 	
 	// 키워드 검색 페이지
 	@RequestMapping("scheduleSearchList.sc")
-	public String scheduleSearchList(@RequestParam(value = "cpage", defaultValue = "1") int currentPage, HttpSession session) {
-		int memNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-//		int listCount = scService.selectListCount(); // 페이징
+	public String scheduleSearchList(@RequestParam(value = "cpage", defaultValue = "1") int currentPage, String keyword, HttpSession session, Model model) {
+		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
+		
+		HashMap<String, Object> map = new HashMap<>();
+	      map.put("memberNo", memberNo);
+	      map.put("keyword", keyword);
+
+		int listCount = scService.selectListCount(map); // 페이징 - 게시글 수
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5, 5);
+		
+		ArrayList<Schedule> list = scService.searchKeyword(map, pi);
+		
+		model.addAttribute("count", listCount);
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		
 		return "schedule/scheduleSearchList"; 
 	}
 	
@@ -134,6 +151,7 @@ public class ScheduleController {
 		//System.out.println("s를찍어볼게" + s);
 		int result = scService.updateScheduleModal(s);
 		
+		
 		//System.out.println("result는" + result);
 		
 		return result > 0 ? "success" : "fail";
@@ -149,19 +167,9 @@ public class ScheduleController {
 		return result > 0 ? "success" : "fail";
 	}
 	
-	// 키워드 검색
-	@GetMapping("searchKeyword.sc")
-	public String searchKeyword(@RequestParam(value = "keyword") String keyword, Model m) {
-		Schedule s = new Schedule();
-		s.setKeyword(keyword);
-		ArrayList<Schedule> list = scService.searchKeyword(s);
-		//System.out.println("키워드 검색은 : " + list);
-		m.addAttribute("list", list);
-		return "schedule/scheduleSearchList";
-
-	}
 	
-	// 키워드 검색 페이징
+	
+	
 	
 	
 

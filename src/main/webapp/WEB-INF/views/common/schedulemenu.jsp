@@ -19,14 +19,13 @@
 	}
 	.menu li{
 	    margin-top: 5px;
-	   
 	}
 	#chat-area li a:hover{
 	    color: gray;
 	    cursor: pointer;
 	    text-decoration: none;
 	}
-	a{
+	#schedule-area a{
 	  color: inherit;
 	  text-decoration:none;
 	}
@@ -40,9 +39,9 @@
         <!-- <button class="btn btn-primary" style="font-size: 13px; width: 100px;">일정추가</button> -->
         <!-- <br><br> -->
         <div id="schedule-area">
-            <ul>
-                <li><a>내 캘린더</a></li> 
-                <li><a>내 캘린더 관리</a></li>
+           	<ul>
+                <li><a href="schedule.sc">캘린더</a></li> 
+                <!-- <li><a>내 캘린더 관리</a></li> -->
             </ul>
         </div>
     </div>
